@@ -185,8 +185,9 @@ void HAL_TIM_MspPostInit(TIM_HandleTypeDef* timHandle)
 
     /*
      * 中文注释：根据Board ID恢复各项目原Bootloader的TIM3灯效引脚。
-     * 弹界/扭蛋：PC9=CH4、PB4=CH1、PB5=CH2。
-     * 蟠桃：PC7=CH2、PC9=CH4、PB4=CH1。
+     * 中文注释：PB4已用于主程序电磁阀，Bootloader禁止将PB4复用为TIM3_CH1。
+     * 弹界/扭蛋：仅保留PC9=CH4、PB5=CH2。
+     * 蟠桃：仅保留PC7=CH2、PC9=CH4。
      */
     if (Boot_BoardGetId() == BOOT_BOARD_PANTAO)
     {
@@ -197,8 +198,7 @@ void HAL_TIM_MspPostInit(TIM_HandleTypeDef* timHandle)
       GPIO_InitStruct.Alternate = GPIO_AF2_TIM3;
       HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
-      GPIO_InitStruct.Pin = GPIO_PIN_4;
-      HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+      /* 中文注释：PB4为电磁阀控制脚，不能在Bootloader中复用为TIM3_CH1。 */
     }
     else
     {
@@ -209,7 +209,8 @@ void HAL_TIM_MspPostInit(TIM_HandleTypeDef* timHandle)
       GPIO_InitStruct.Alternate = GPIO_AF2_TIM3;
       HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
-      GPIO_InitStruct.Pin = GPIO_PIN_4|GPIO_PIN_5;
+      /* 中文注释：PB4为电磁阀控制脚，不能在Bootloader中复用为TIM3_CH1；仅保留PB5。 */
+      GPIO_InitStruct.Pin = GPIO_PIN_5;
       HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
     }
 
