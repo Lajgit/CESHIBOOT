@@ -76,7 +76,7 @@ void MX_GPIO_Init(void)
   /* 中文注释：电磁阀控制脚使用推挽输出并保持低电平，避免Bootloader期间误吸合。 */
   GPIO_InitStruct.Pin = GPIO_PIN_3 | GPIO_PIN_4;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_PULL_DOWN;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
